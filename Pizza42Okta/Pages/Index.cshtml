@@ -110,6 +110,8 @@
 				<h1 class="mb-4">Pizza 42</h1>
 				<p class="lead">
 					Welcome to Pizza 42!
+				</p>				
+				<p class="lead" id="ERROR">
 				</p>
 				<p class="lead pizza-options-logout">
 					Please log in to place an order or view your pizza history!
@@ -117,18 +119,18 @@
 			</div>
 			<div class="next-steps pizza-options user-verified">
 				<div class="row">
-					<div class="col-md-5 mb-4">
+					<div class="col-md-4 mb-4">
 						<h6 class="mb-3 user-verified">Place Order</h6>
 						<div id="Place-Order-Details" class="row">
-							<div class="col-md-10">
+							<div class="col-md-8">
 								<select class="form-select" aria-label="Pizza Type" id="Pizza-Type-Dropdown"></select>
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-4">
 								<button type="button" class="btn btn-primary" onclick="addOrder()">Order</button>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-5 mb-4">
+					<div class="col-md-4 mb-4">
 						<h6 class="mb-3">
 							Order History
 						</h6>
@@ -143,6 +145,15 @@
 								<tbody id="Order-History-Details">
 								</tbody>
 							</table>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4">
+						<h6 class="mb-3">
+							Check Claims (Admin Only)
+						</h6>
+						<div>
+							<button id="btn-call-api" class="btn btn-primary" onclick="callApi()">Check user claims</button>
+							<pre id="api-call-result"></pre>
 						</div>
 					</div>
 				</div>
@@ -166,10 +177,6 @@
 					<code id="profile-data" class="json"></code></pre>
 				</div>
 			</div>
-		</div>
-		<div class="hidden">
-			<button id="btn-call-api" disabled onclick="callApi()">Call Api</button>
-			<pre id="api-call-result"></pre>
 		</div>
 	</div>
 </div>

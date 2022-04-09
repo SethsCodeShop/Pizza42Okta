@@ -67,16 +67,17 @@ const requireAuth = async (fn, targetUrl) => {
     return login(targetUrl);
 };
 
+const PermissionError = "Insufficient permissions. Please talk to your admin if you feel as if this is incorrect.";
+
 const callApi = async () => {
     try {
 
         // Get the access token from the Auth0 client
         const token = await auth0.getTokenSilently();
 
-        console.log(token);
         // Make the call to the API, setting the token
         // in the Authorization header
-        const response = await fetch("/api/order/history",
+        const response = await fetch("/api/order/claims",
             {
                 method: "GET",
                 headers:
@@ -86,10 +87,16 @@ const callApi = async () => {
             }
         );
 
-        // Fetch the JSON result
-        const responseData = await response.json();
+        var responseData = "";
 
-        console.log(responseData);
+        if (response.status == 403) {
+            document.getElementById("ERROR").innerHTML = PermissionError;
+            return;
+        }
+        else {
+            // Fetch the JSON result
+            responseData = await response.json();
+        }
 
         // Display the result in the output element
         const responseElement = document.getElementById("api-call-result");
@@ -98,7 +105,7 @@ const callApi = async () => {
 
     } catch (e) {
         // Display errors in the console
-        console.error(e);
+        console.log(e);
     }
 };
 
@@ -120,8 +127,17 @@ const getOrderHistory = async () => {
             }
         );
 
-        // Fetch the JSON result
-        const responseData = await response.json();
+
+        var responseData = "";
+
+        if (response.status == 403) {
+            document.getElementById("ERROR").innerHTML = PermissionError;
+            return;
+        }
+        else {
+            // Fetch the JSON result
+            responseData = await response.json();
+        }
 
         responseData.forEach(function (item) {
             addOrderHistory(item);
@@ -149,6 +165,11 @@ const getPizzaTypes = async () => {
                 }
             }
         );
+
+        if (response.status == 403) {
+            document.getElementById("ERROR").innerHTML = PermissionError;
+            return;
+        }
 
         // Fetch the JSON result
         const responseData = await response.json();
@@ -192,11 +213,19 @@ const addOrder = async () => {
             }
         );
 
+        if (response.status == 403) {
+            document.getElementById("ERROR").innerHTML = PermissionError;
+            return;
+        }
+
         // Fetch the JSON result
         const responseData = await response.json();
         addOrderHistory(responseData);
     } catch (e) {
         // Display errors in the console
+        if (e.response == "403") {
+            console.log('here');
+        }
         console.error(e);
     }
 };

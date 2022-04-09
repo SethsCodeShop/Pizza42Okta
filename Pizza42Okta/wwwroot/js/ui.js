@@ -67,7 +67,7 @@ const updateUI = async () => {
 
         if (isAuthenticated) {
             const user = await auth0.getUser();
-
+            
             document.getElementById("profile-data").innerText = JSON.stringify(
                 user,
                 null,

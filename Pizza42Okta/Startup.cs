@@ -28,41 +28,33 @@ namespace Pizza42Okta
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowSpecificOrigin",
-                    builder =>
-                    {
-                        builder
-                        .WithOrigins("http://localhost:44329")
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
-                    });
-            });
 
             var domain = $"https://{Configuration["auth0:domain"]}/";
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("read:messages", policy => policy.Requirements.Add(new HasScopeRequirement("read:messages", domain)));
-            });
-
             services.AddControllers();
 
             services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(options =>
                 {
                     options.Authority = domain;
-                    options.Audience = Configuration["Auth0:Audience"];
+                    options.Audience = Configuration["Auth0:audience"]; ;
                     // If the access token does not have a `sub` claim, `User.Identity.Name` will be `null`. Map it to a different claim by setting the NameClaimType below.
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         NameClaimType = ClaimTypes.NameIdentifier
                     };
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("read:users", policy => policy.Requirements.Add(new HasScopeRequirement("read:users", domain)));
+                options.AddPolicy("remove:orders", policy => policy.Requirements.Add(new HasScopeRequirement("remove:orders", domain)));
+                options.AddPolicy("add:orders", policy => policy.Requirements.Add(new HasScopeRequirement("add:orders", domain)));
+            });
 
             // Register the scope authorization handler
             services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
@@ -84,9 +76,6 @@ namespace Pizza42Okta
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
-            app.UseCors("AllowSpecificOrigin");
-            app.UseCors("AllowSpecificOriginLocalPort");
 
             app.UseRouting();
 

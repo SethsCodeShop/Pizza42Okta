@@ -19,6 +19,7 @@ namespace Pizza42Okta.Controllers
 		}
 
         [HttpPost("add")]
+        [Authorize("add:orders")]
         public IActionResult Add(PizzaOrderAdd order)
         {
             try
@@ -36,6 +37,7 @@ namespace Pizza42Okta.Controllers
         }
 
         [HttpGet("RemoveAll")]
+        [Authorize("remove:orders")]
         public IActionResult RemoveAll()
 		{
             _Repo.RemoveAllOrders();
@@ -43,6 +45,7 @@ namespace Pizza42Okta.Controllers
 		}
 
         [HttpGet("RemoveAllTypes")]
+        [Authorize("remove:orders")]
         public IActionResult RemoveAllTypes()
         {
             _Repo.RemoveAllOrders();
@@ -50,6 +53,7 @@ namespace Pizza42Okta.Controllers
         }
 
         [HttpGet("pizzaTypes")]
+        [Authorize]
         public IActionResult PizzaTypes()
         {
             try
@@ -82,6 +86,7 @@ namespace Pizza42Okta.Controllers
 
         // This is a helper action. It allows you to easily view all the claims of the token.
         [HttpGet("claims")]
+        [Authorize("read:users")]
         public IActionResult Claims()
         {
             return Ok(User.Claims.Select(c =>
