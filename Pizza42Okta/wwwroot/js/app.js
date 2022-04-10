@@ -139,9 +139,15 @@ const getOrderHistory = async () => {
             responseData = await response.json();
         }
 
-        responseData.forEach(function (item) {
-            addOrderHistory(item);
-        });
+        if (responseData.length == 0) {
+            var element = document.getElementById("Order-History-Details");
+            element.innerHTML = "No Order History found. Please place an order.";
+        }
+        else {
+            responseData.forEach(function (item) {
+                addOrderHistory(item);
+            });
+        }
     } catch (e) {
         // Display errors in the console
         console.error(e);
