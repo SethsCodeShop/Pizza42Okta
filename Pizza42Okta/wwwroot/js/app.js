@@ -49,6 +49,7 @@ const configureClient = async () => {
         domain: config.domain,
         client_id: config.clientId,
         audience: config.audience,
+        cacheLocation: 'localstorage'
     });
 };
 
