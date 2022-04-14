@@ -225,6 +225,10 @@ const addOrder = async () => {
             return;
         }
 
+        if (document.getElementById("Order-History-Details").innerHTML == "No Order History found. Please place an order.") {
+            document.getElementById("Order-History-Details").innerHTML = "";
+        }
+
         // Fetch the JSON result
         const responseData = await response.json();
         addOrderHistory(responseData);
