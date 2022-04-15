@@ -24,7 +24,8 @@ namespace Pizza42Okta.Controllers
         {
             try
             {
-                var userId = User.Identity.Name.Replace("google-oauth2|", "").Replace("auth0|", "");
+                var pipeIndex = User.Identity.Name.IndexOf("|");
+                var userId = User.Identity.Name.Substring(pipeIndex + 1);
 
                 var newOrder = _Repo.AddOrder(order.PizzaOrderTypeId, userId);
 
