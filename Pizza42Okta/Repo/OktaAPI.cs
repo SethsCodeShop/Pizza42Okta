@@ -30,7 +30,13 @@ namespace Pizza42Okta.Repo
                     var oktaUser = JsonConvert.DeserializeObject<OktaUser>(response.Content);
 
                     if (oktaUser != null)
+                    {
+                        if(oktaUser.Orders == null || oktaUser.Orders.Orders == null)
+                        {
+                            oktaUser.Orders = new OktaOrder() { Orders = new List<PizzaOrder>() };
+                        }
                         _OktaUser = oktaUser;
+                    }
                 }
 
                 return _OktaUser;
