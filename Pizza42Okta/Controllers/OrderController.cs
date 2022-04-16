@@ -24,11 +24,9 @@ namespace Pizza42Okta.Controllers
         {
             try
             {
-                var pipeIndex = User.Identity.Name.IndexOf("|");
-                var userId = User.Identity.Name.Substring(pipeIndex + 1);
-
-                var newOrder = _Repo.AddOrder(order.PizzaOrderTypeId, userId);
-
+                var pizzaType = _Repo.GetPizzaType(order.PizzaOrderTypeId);
+                var oktaAPI = new Repo.OktaAPI(User.Identity.Name);
+                var newOrder = oktaAPI.AddOrder(pizzaType.Name);
                 return Ok(newOrder);
             }
             catch (Exception e)
@@ -75,10 +73,9 @@ namespace Pizza42Okta.Controllers
         {
             try
             {
-                var pipeIndex = User.Identity.Name.IndexOf("|");
-                var userId = User.Identity.Name.Substring(pipeIndex + 1);
-                var pizzaOrders = _Repo.GetHistory(userId);
-                return Ok(pizzaOrders);
+                var oktaAPI = new Repo.OktaAPI(User.Identity.Name);
+                var history = oktaAPI.GetOrderHistory();
+                return Ok(history);
             }
             catch (Exception e)
             {

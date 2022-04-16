@@ -243,10 +243,9 @@ const addOrder = async () => {
 
 const addOrderHistory = async (order) => {
     var table = document.getElementById("Order-History-Details");
-    var created = getFormattedDate(new Date(order.created));
 
     var element = document.createElement('tr');
-    element.innerHTML = `<th>${order.type.name}</th><th>${created}</th>`;
+    element.innerHTML = `<th>${order.orderName}</th><th>${order.created}</th>`;
     table.appendChild(element);
 }
 

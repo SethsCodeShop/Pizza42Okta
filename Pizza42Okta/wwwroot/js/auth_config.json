@@ -1,5 +1,5 @@
 {
-    "domain": "dev-zjcjakjo.us.auth0.com",
-    "clientId": "T3TrGwKcu1klLd5wWdEIScO17OXoPODM",
-    "audience": "https://Pizza42.okta.com/api"
+  "domain": "dev-zjcjakjo.us.auth0.com",
+  "clientId": "R3s1BDoRtJalPQAdorN84YVl1YGLr2Lp",
+  "audience": "https://Pizza42.okta.com/api"
 }

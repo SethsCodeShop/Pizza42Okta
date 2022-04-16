@@ -13,11 +13,6 @@ namespace Pizza42Okta.Repo
 			_Context = context;
 		}
 
-		public List<Order> GetHistory(string userId)
-		{
-			return _Context.Orders.Include(b => b.Type).Where(a => a.UserId == userId).ToList();
-		}
-
 		public List<Type> GetPizzaTypes()
 		{
             var pizzaTypes = new List<Models.Type>();
@@ -50,21 +45,10 @@ namespace Pizza42Okta.Repo
             return pizzaTypes;
         }
 
-        public Order AddOrder(int pizzaOrderTypeId, string userId)
-		{
-            var orderType = _Context.Types.Where(a => a.Id == pizzaOrderTypeId).FirstOrDefault();
-
-            var order = new Order()
-            {
-                Type = orderType,
-                UserId = userId,
-                Created = System.DateTime.UtcNow
-            };
-            var result = _Context.Orders.Add(order);
-            _Context.SaveChanges();
-
-            return result.Entity;
-		}
+        public Type GetPizzaType(int pizzaTypeId)
+        {
+            return _Context.Types.Where(a => a.Id == pizzaTypeId).FirstOrDefault();
+        }
 
         public void RemoveAllOrders()
 		{
