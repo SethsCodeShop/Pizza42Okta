@@ -62,7 +62,10 @@ namespace Pizza42Okta.Repo
             request.AddParameter("application/json", orderJSON, ParameterType.RequestBody);
             var response = client.Execute(request);
             if(response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                _OktaUser.Orders.Orders.Add(newOrder);
                 return newOrder;
+            }
             else
                 return null;
         }
