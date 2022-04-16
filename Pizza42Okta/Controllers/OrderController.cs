@@ -35,22 +35,6 @@ namespace Pizza42Okta.Controllers
             }
         }
 
-        [HttpGet("RemoveAll")]
-        [Authorize("remove:orders")]
-        public IActionResult RemoveAll()
-		{
-            _Repo.RemoveAllOrders();
-            return Ok(true);
-		}
-
-        [HttpGet("RemoveAllTypes")]
-        [Authorize("remove:orders")]
-        public IActionResult RemoveAllTypes()
-        {
-            _Repo.RemoveAllOrders();
-            return Ok(true);
-        }
-
         [HttpGet("pizzaTypes")]
         [Authorize]
         public IActionResult PizzaTypes()

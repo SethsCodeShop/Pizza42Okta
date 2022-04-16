@@ -49,16 +49,5 @@ namespace Pizza42Okta.Repo
         {
             return _Context.Types.Where(a => a.Id == pizzaTypeId).FirstOrDefault();
         }
-
-        public void RemoveAllOrders()
-		{
-            var types = _Context.Types ;
-
-            foreach(var t in types)
-			{
-                _Context.Types.Remove(t);
-			}
-            _Context.SaveChanges();
-		}
 	}
 }
